@@ -1,0 +1,110 @@
+---
+
+---
+
+<div class="scene03">
+    <canvas id=canvas" style="width: 100%; height: 80vh;"></canvas>
+</div>
+
+<style lang="sass">
+.scene03
+    @apply flex w-full h-[70vh]
+    @apply overflow-hidden z-50
+    canvas
+        @apply w-full m-auto
+</style>
+
+<script> // three js
+import * as THREE from 'three';
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader";
+
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+const sceneContainer = document.querySelector('.scene03') as HTMLElement
+
+// SET SCENE
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera( 75, sceneContainer.clientWidth / sceneContainer.clientHeight, 0.1, 1000 );
+
+const renderer = new THREE.WebGLRenderer( { alpha: true, antialias: true } );
+renderer.setSize( sceneContainer.clientWidth, sceneContainer.clientHeight );
+renderer.shadowMap.enabled = true
+sceneContainer.appendChild( renderer.domElement );
+camera.position.set( 0, 3, 7)
+
+// GRID
+const gridHelper = new THREE.GridHelper(30, 30)
+scene.add( gridHelper );
+// AXES
+// const axesHelper = new THREE.AxesHelper(5)
+// scene.add( axesHelper );
+
+// LIGHT
+const light = new THREE.DirectionalLight( 0xFF00FF, 15, 25 )
+light.position.set(4, 4, 4)
+scene.add( light )
+
+const ambientLight = new THREE.AmbientLight( 0x404040 );
+scene.add( ambientLight );
+
+// ORBIT CONTROLLER
+const controls = new OrbitControls( camera, renderer.domElement );
+controls.minDistance = 5
+controls.maxDistance = 20
+controls.enableDamping = true
+controls.dampingFactor = .15
+// rotation widht - x axis
+controls.minAzimuthAngle = Math.PI / -4 // left
+controls.maxAzimuthAngle = Math.PI / 4 // right
+// rotation height - y axis
+controls.minPolarAngle = Math.PI / 6 // top
+controls.maxPolarAngle = Math.PI / 1.75 // bottom
+
+// LOADERS 
+const gltfLoader = new GLTFLoader();
+const rgbeLoader = new RGBELoader();
+THREE.ColorManagement.enabled = true;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1;
+
+// HDR
+rgbeLoader.load('./public/MR_INT-006_LoftIndustrialWindow_Griffintown.hdr', (texture) => {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    texture.encode = THREE.sRGBEncoding;
+    texture.castShadow = true
+
+    scene.environment = texture
+})
+
+const windowResize = () => {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+}
+
+window.addEventListener( 'resize', windowResize, false );
+
+// MODEL
+gltfLoader.load('/coche/coche.glb', (gltf) => {
+    const model = gltf.scene;
+    scene.add(model);
+
+    const animate = () => {
+        requestAnimationFrame(animate);
+
+        // model.rotation.x += 0.005;
+        model.rotation.y -= 0.003;
+
+        controls.update();
+        renderer.render(scene, camera);
+    };
+    windowResize()
+    animate();
+});
+
+
+</script>

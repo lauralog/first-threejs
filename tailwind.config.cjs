@@ -6,11 +6,11 @@ module.exports = {
 	],
 	theme: {
 		fontFamily:{
-			sans: ['Gotham SSm A', 'sans-serif']
+			sans: ['Alps', 'sans-serif']
 		},
 		extend: {
 			fontFamily: {
-				apls: 'alps'
+				alps: ['Alps', 'sans-serif']
 			}
 		},
 	},

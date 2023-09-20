@@ -1,0 +1,49 @@
+---
+const { color, title, subtitle } = Astro.props;
+const textColor = `text-${color}` // ${textColor}, color es una var que está declarada arriba y declarandolo así conseguimos que el color sea el mismo que el del header
+
+---
+
+<section class="landing_section"
+    data-header-color={color}
+>
+    <div class="section_content">
+        <header class=`section_header`> 
+            <h2>{title}</h2>
+            <p>{subtitle}</p>
+        </header>
+
+        <footer class=`section_footer_container`>
+            <slot name="section_footer" />
+        </footer>
+    </div>
+
+    <div class="section_bg_container">
+        <!-- <Three js/> -->
+        <slot name="background" />
+    </div>
+</section>
+
+<style lang="sass">
+    .landing_section
+        @apply relative h-screen w-full text-center overflow-hidden
+        .section_content
+            @apply relative text-white
+            @apply h-full flex flex-col
+            .section_header
+                h2
+                    @apply pt-24 text-[40px] font-medium leading-[48px]
+                p
+                    @apply pt-2
+            .section_footer_container
+                @apply flex flex-col flex-grow justify-end items-center p-10 w-full
+                .section_footer
+                    @apply px-12 py-2 rounded
+                    @apply text-sm font-semibold
+                    @apply backdrop-blur-sm
+
+        .section_bg_container
+            @apply absolute top-0 bottom-0 h-[70vh] z-10 my-auto 
+
+</style>
+

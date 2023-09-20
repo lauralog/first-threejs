@@ -1,0 +1,58 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../../assets/styles/styles.sass"
+import Header from "../components/Header.astro";
+import SectionThree from "../components/SectionThree.astro";
+import Three from "../components/Three.astro";
+
+---
+
+<Layout title="Three js prototype">
+	<Header />
+
+	<main class="main">
+
+		<div class="hero_container" id="section01">
+			<SectionThree
+				color = 'white'
+				title = 'New A610'
+				subtitle = 'Por favor, espera a que cargue el modelo'
+			>	
+				<div slot="section_footer" class="section_footer">
+					<p>Controles: click izqiuerdo: órbita; rueda: zoom; click derecho: paneo. </p>
+					<!-- <a href="">Scroll down to know more</a> -->
+				</div>
+				<div slot="background">
+					<Three></Three>
+				</div>
+			</SectionThree> 
+		</div>
+
+	</main>
+
+</Layout>
+
+<style lang="sass">
+	.main
+		@apply relative w-full h-screen overflow-auto scrollbar-hide
+		// con overflow-auto scrolleamos el contenedor
+		@apply bg-black
+		@apply snap-y snap-mandatory
+		.hero_container
+			@apply snap-center
+
+	.section_footer
+		@apply flex flex-col flex-grow justify-end items-center p-4
+		a
+			@apply w-fit px-12 py-2 rounded text-blue-600
+			@apply text-sm font-medium
+			@apply border-2 border-blue-600 backdrop-blur-sm
+			@apply delay-100 duration-500 ease-in-out
+			&:hover
+				@apply bg-white text-blue-700 
+				@apply delay-100 duration-500 ease-in-out
+
+	.section_bg
+		@apply object-center object-cover h-screen w-screen
+
+</style>

@@ -1,0 +1,122 @@
+---
+import Logo from "./Logo.astro"
+---
+
+<header class="landing_header"
+    id="landing_header"
+>
+
+    <Logo />
+
+    <nav class="center_nav header_nav">
+        <ul class="nav_items">
+            <li class="nav_item"><a href="#">A110</a></li>
+            <li class="nav_item"><a href="#">A310</a></li>
+            <li class="nav_item"><a href="#">A610</a></li>
+        </ul>			
+    </nav>
+
+    <nav class="right_nav header_nav">
+        <ul class="nav_items">
+            <li class="nav_item"><a href="#">Placeholder</a></li>
+            <li class="nav_item"><a href="https://github.com/lauralog">Github</a></li>
+        </ul>			
+    </nav>
+
+    <div class="menu_backdrop" id="menu_backdrop">
+        <span class="backdrop_bg"></span>
+    </div>
+    
+</header>
+
+<style lang="sass">
+    a
+    .landing_header
+        @apply px-4 z-40 fixed overflow-hidden pt-2 
+        // si es fixed ya es relativo
+        @apply h-[56px] top-0 w-full
+        @apply flex items-center justify-between
+        // @apply border-b border-white
+        @apply text-sm font-medium text-current
+        @apply transition-colors duration-500 delay-0
+        .header_nav
+            @apply h-full
+            .nav_items
+                @apply flex h-full gap-4
+                .nav_item
+                    @apply flex justify-start items-center overflow-hidden
+                    @apply px-2 h-full 
+                    a
+                        @apply ml-2 mr-2 
+                            
+        .center_nav
+            @apply hidden md:flex
+
+        .right_nav
+            @apply flex flex-grow basis-0 justify-end pr-2 
+        
+        .menu_backdrop
+            @apply absolute top-0 left-0 scale-125
+            @apply backdrop-blur-md
+            @apply translate-x-[var(--left)] translate-y-[var(--top)]
+            @apply w-[var(--width)] h-[var(--height)]
+            @apply transition-all duration-300 ease-in-out opacity-0 -z-10
+
+            .backdrop_bg
+                @apply flex w-[80%] h-[120%] m-auto
+                // @apply h-[calc(var(--height))*1.05]
+                @apply bg-gradient-to-t from-blue-600 blur-lg
+
+
+</style>
+
+<script> // MENU BACKDROP HOVER
+    const headerItems = document.querySelectorAll(".landing_header li")
+    const menuBackdrop = document.querySelector("#menu_backdrop")
+
+    headerItems.forEach((headerItem) => {
+        headerItem.addEventListener('mouseenter', (ev) => {
+            const { left, top, width, height } = ev.target.getBoundingClientRect()
+            menuBackdrop.style.setProperty("--left", `${left}px`)
+            menuBackdrop.style.setProperty("--top", `${top}px`)
+            menuBackdrop.style.setProperty("--width", `${width}px`)
+            menuBackdrop.style.setProperty("--height", `${height}px`)
+            menuBackdrop.style.opacity = '1'
+            menuBackdrop.style.visibility = 'visible'
+        })
+
+        headerItem.addEventListener('mouseleave', ({target}) => {
+            menuBackdrop.style.opacity = '0'
+            menuBackdrop.style.visibility = 'none'
+        })
+    })
+</script>
+
+<script> // HEADER COLOR CHANGER
+    const $header = document.querySelector('#landing_header') as HTMLElement
+    const $sections = document.querySelectorAll('.landing_section')
+
+    const observerOptions = {
+        root: null, // contenedor del elemento que queremos detectar
+        rootMargin: '0px', // margen de ejecución de la acción, en cuanto se vea el elemento
+        threshold: 0.9 // porcentaje de visibilidad
+    }
+
+    const observer = new IntersectionObserver ((entries) => {
+        entries.forEach(entry => {
+            const { isIntersecting } = entry
+            if (isIntersecting) {
+                const color = entry.target.getAttribute('data-header-color')
+                $header.style.color = color
+            }
+        })
+    }, observerOptions)
+
+    const changeColor = () => {
+        $sections.forEach(section => {
+            observer.observe(section)
+        });
+
+    }
+    changeColor()
+</script>

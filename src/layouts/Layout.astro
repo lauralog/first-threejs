@@ -1,0 +1,66 @@
+---
+export interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description">
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="./../public/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+<style is:global>
+	/**
+     * IMPORT FONTS
+	*/
+@font-face{ 
+    font-family: 'Alps';
+    src: url('/fonts/AlpineNewAlps-Semibold.woff') format('woff'),
+        url('/fonts/AlpineNewAlps-Semibold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face{ 
+    font-family: 'Alps';
+    src: url('/fonts/AlpineNewAlps-Light.woff') format('woff'),
+        url('/fonts/AlpineNewAlps-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: light;
+    font-display: swap;
+}
+
+@font-face{
+    font-family: 'Alps';
+    src: url('/fonts/AlpineNewAlps-Regular.woff') format('woff'),
+        url('/fonts/AlpineNewAlps-Regular.woff2') format('woff2');
+    font-weight: 500;
+    font-style: semibold;
+    font-display: swap;
+}
+
+:root {
+	--accent: 124, 58, 237;
+	--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
+}
+html {
+	/* font-family: system-ui, sans-serif; */
+	background-color: #F6F6F6;
+}
+code {
+	/* font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+		Bitstream Vera Sans Mono, Courier New, monospace; */
+}
+</style>
