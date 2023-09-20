@@ -1,9 +1,9 @@
-# Tesla.com landing page clone
-Made with HTML, SASS, Astro and Tailwind and used to learn Git and GitHub too.
-This has been made following a [video from midudev](https://www.youtube.com/watch?v=S_oLr_np4S8)
+# About
+Hero section and styling for Alpine based on Tesla's landing page.
+This project was developed to learn Astro and Three js.
 
 ## About
-This first version isn't complete, as this is a personal approach on using frameworks and there are many things to keep working on and can be improve, like components and slots.
+Material's light reflection doesn't work on deploy.
 
 ------------------------------------------------------------------------------------
 # Astro Starter Kit: Basics
