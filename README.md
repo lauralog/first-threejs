@@ -1,5 +1,4 @@
-#News
-Fixed in other browsers. Tested in Firefox and Chrome
+!! Fixed in other browsers. Tested in Firefox and Chrome
 
 # About
 Hero section and styling for Alpine based on Tesla's landing page.
